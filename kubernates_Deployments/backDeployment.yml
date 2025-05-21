@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-dep 
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      web: backend
+  
+  template:
+    metadata:
+       labels:
+         web: backend
+
+    spec:
+      containers:
+       - name: backend-container
+         image: amirmamdouh123/saay-backend
+         ports:
+         - containerPort: 4000
+         - containerPort: 22
+

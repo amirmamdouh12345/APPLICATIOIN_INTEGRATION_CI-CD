@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: frontend-dep 
+
+
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      web: frontend 
+   
+  template: 
+    metadata: 
+       labels:
+         web: frontend
+            
+    spec:
+      containers:
+       - name: frontend-container
+         image: amirmamdouh123/saay-frontend  
+         ports: 
+         - containerPort: 3000
+         - containerPort: 22 
+             
+

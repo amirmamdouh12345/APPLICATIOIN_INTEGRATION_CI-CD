@@ -1,0 +1,68 @@
+pipeline {
+    agent any
+
+    environment {
+        KUBECONFIG = '/home/ubuntu/.kube/config'
+    }
+
+    stages {
+        stage('git clone') {
+            steps {
+                git url: 'https://github.com/amirmamdouh123/SAAY_JENKINS_PIPLELINE'
+            }
+        }
+
+    stage('Configure kubeconfig') {
+        steps {
+                sh '''
+                    aws eks update-kubeconfig --region us-east-1 --name saayeks
+                    kubectl get nodes
+                '''
+        }
+    }
+
+
+        stage('docker build') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub_cred', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
+                    sh 'docker build -f dockerfiles/frontend_dockerFile -t amirmamdouh123/saay-frontend .'
+                    sh 'docker build -f dockerfiles/backend_dockerfile -t amirmamdouh123/saay-backend .'
+                    sh 'docker build -f dockerfiles/db_dockerfile -t amirmamdouh123/saay-mysql .'  // Fixed misplaced quote
+                    
+                    sh 'docker push amirmamdouh123/saay-frontend'
+                    sh 'docker push amirmamdouh123/saay-backend'
+                    sh 'docker push amirmamdouh123/saay-mysql'
+                } 
+            }
+        }
+
+        stage('deploy your deployments on saay_eks') {
+            steps {
+                // Deploy db, frontend, backend services and deployments
+                sh 'kubectl apply -f kubernates_Deployments/dbService.yml'
+                sh 'kubectl apply -f kubernates_Deployments/FrontDeployment.yml'
+                sh 'kubectl apply -f kubernates_Deployments/dbDeployment.yml'
+                sh 'kubectl apply -f kubernates_Deployments/backDeployment.yml'
+                sh 'kubectl apply -f kubernates_Deployments/backService.yml'
+
+                // Deploy frontend load balancers
+                sh 'kubectl apply -f kubernates_Deployments/frontendLoadBalancer.yml'
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Cleaning up...'
+            sh 'docker logout'
+        }
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed!'
+        }
+    }
+}
+

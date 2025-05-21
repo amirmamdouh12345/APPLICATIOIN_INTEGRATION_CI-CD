@@ -1,0 +1,17 @@
+FROM ubuntu:latest
+
+RUN apt update -y && \
+    apt install  openjdk-17-jdk -y && \ 
+    apt install openssh-server -y  && \
+    apt install maven -y
+
+EXPOSE 4000 
+EXPOSE 22           
+
+
+WORKDIR /backend/
+
+COPY ./Saay_Java_backend/ /backend/        
+
+
+ENTRYPOINT ["mvn","spring-boot:run"]      
