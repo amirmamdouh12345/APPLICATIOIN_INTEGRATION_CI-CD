@@ -56,13 +56,6 @@ public class UnAuthController {
         HttpSession session = request.getSession();
         session.setAttribute("Authorization","Bearer "+token.trim());
 
-//        Cookie c =new Cookie("Authorization","Bearer"+token.trim());
-//        c.setHttpOnly(true);
-//        c.setSecure(true); // Set to true if using HTTPS
-//        c.setPath("/");
-//        c.setMaxAge(3600); // Set cookie expiration time (1 hour in seconds)
-//        response.addCookie(c);
-
         return token;
 
     }
@@ -73,13 +66,6 @@ public class UnAuthController {
         httpSession.invalidate();
         HttpSession session = request.getSession();
         session.removeAttribute("Authorization");
-
-//
-//
-//        Cookie c =new Cookie("Authorization",null);
-//        c.setPath("/");
-//        c.setMaxAge(0); // Set cookie expiration time
-//        response.addCookie(c);
 
         return "logout successfully";
 
