@@ -33,39 +33,6 @@ public class UnAuthController {
 
     @Autowired
     ResetPasswordService resetPasswordService;
-//    @GetMapping()
-//    public String z(){
-//        return  "I'm unauthenticated";
-//    }
-//
-//    @GetMapping("log")
-//    public String x(){
-//        return  "I'm unauthenticated";
-//    }
-
-//    @PostMapping("login")
-//    public String login(@RequestBody Login loginUser , HttpServletResponse response){
-//
-//        System.out.println("login");
-//        UsernamePasswordAuthenticationToken login = new UsernamePasswordAuthenticationToken(loginUser.getUsername(),loginUser.getPassword());
-//        Authentication authentication = manager.authenticate(login);
-//
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
-//
-//        String token = jwtService.generateToken(login.getName());
-//
-//        System.out.println(token);
-//        Cookie c =new Cookie("Authorization","Bearer"+token.trim());
-//        c.setHttpOnly(true);
-//        c.setSecure(true); // Set to true if using HTTPS
-//        c.setPath("/");
-//        c.setMaxAge(3600); // Set cookie expiration time (1 hour in seconds)
-//        response.addCookie(c);
-//
-//        return token;
-//
-//    }
-
 
     @GetMapping
     public String testUp(){
