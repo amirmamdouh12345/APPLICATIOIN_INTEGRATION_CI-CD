@@ -15,12 +15,6 @@ public class ExceptionController {
     @ExceptionHandler(value = NotFoundException.class)
     public ResponseEntity<?> handleNotFound(NotFoundException notFound){
 
-//        private String message;     // Error message
-//        private String details;     // Additional details about the exception (e.g., URI or method)
-//        private int statusCode;     // HTTP status code (optional, if you're using this in a web context)
-//        private String timestamp;   // Timestamp when the error occurred
-
-
         ExceptionDTO exceptionDTO = new ExceptionDTO(notFound.getMessage(), HttpStatus.BAD_REQUEST.value(), LocalDateTime.now().toString());
 
         return ResponseEntity.badRequest().body(exceptionDTO);
