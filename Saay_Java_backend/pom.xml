@@ -84,7 +84,6 @@
 					<groupId>some.dependency.groupId</groupId>
 					<artifactId>some-dependency-artifactId</artifactId>
 				</exclusion>
-				<!-- Add more exclusions if needed -->
 			</exclusions>
 		</dependency>
 
