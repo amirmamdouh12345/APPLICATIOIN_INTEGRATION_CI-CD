@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('git clone') {
             steps {
-                git url: 'https://github.com/amirmamdouh123/SAAY_JENKINS_PIPLELINE'
+                git url: 'https://github.com/amirmamdouh12345/APPLICATIOIN_INTEGRATION_CI-CD'
             }
         }
 
